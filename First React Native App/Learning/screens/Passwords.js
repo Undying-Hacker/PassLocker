@@ -64,12 +64,13 @@ export default function Passwords({ navigation }) {
 
     return (
         <View style={{...styles.container, backgroundColor: user.theme === 'light'? 'rgb(245, 246, 250)': 'rgb(18, 18, 18)'}}>
+            <Text style={{ ...styles.title, marginLeft: 18, marginTop: 64, color: user.theme === 'light'? '#000' : 'rgba(236, 240, 241,1.0)' }}>Search</Text>
             <SearchBar
                 placeholder={`Search by ${user.searchMode.toLowerCase()}...`}
                 value={search}
                 lightTheme={user.theme === 'light'}
                 onChangeText={setSearch}
-                containerStyle={{ width: width, paddingTop: width / 10, backgroundColor: user.theme === 'light'? 'rgba(255, 255, 255, 0.8)':'rgba(24, 24, 24, 0.6)' }}
+                containerStyle={{ width: width, paddingTop: 16, backgroundColor: user.theme === 'light'? 'rgba(255, 255, 255, 0.4)':'rgba(24, 24, 24, 0.6)' }}
             />
             <View style={{ flex: 1 }}>
                 <FlatList data={!search? passwords: passwords.filter(item => {return user.searchMode === 'Platform'? item.platform.match(new RegExp(search, 'gi')): item.email.match(new RegExp(search, 'gi'))})} style={styles.pwContainer} keyExtractor={item => item.email} renderItem={({ item, index }) => <Card data={item} edit={() => handleEdit(item, index)} color={cardColors[index % cardColors.length]} deleteItem={() => handleDelete(index)} delay={50 * index} />} />
@@ -170,6 +171,11 @@ const styles = StyleSheet.create({
     },
     modalBtnContainer: {
         flexDirection: 'row',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        alignSelf: 'flex-start',
     },
     modalBtn: {
         width: 120,

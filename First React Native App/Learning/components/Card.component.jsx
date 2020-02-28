@@ -59,7 +59,7 @@ const Card = ({ data, color, edit, deleteItem, delay }) => {
                     width,
                     height: expandAnime.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [height * 0.1, height * 0.25]
+                        outputRange: [height * 0.1, height * 0.2]
                     }),
                     flexDirection: 'row',
                     marginBottom: 4
@@ -118,12 +118,12 @@ const styles = StyleSheet.create({
     content: {
         flex: 1,
         height: '100%',
-        justifyContent: 'center',
         paddingLeft: 16,
+        justifyContent: 'flex-start'
     },
     platform: {
         fontFamily: 'monospace',
-        fontSize: 24,
+        fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 8
     },
