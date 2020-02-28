@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     actions: {
         flexDirection: 'row',
         position: 'absolute',
-        bottom: 0,
+        bottom: 12,
     }
 });
 

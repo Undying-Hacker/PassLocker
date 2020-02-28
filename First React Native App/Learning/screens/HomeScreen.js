@@ -1,55 +1,54 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { View, Image, Text, Animated, StyleSheet, Dimensions } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { Feather } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import Carousel from 'react-native-snap-carousel';
 import { useUser } from '../context/UserContext';
 
 const HomeScreen = ({ navigation }) => {
     const [startAnime] = useState(new Animated.Value(0));
     const user = useUser()[0];
     const { width, height } = Dimensions.get('window');
+    const _renderItem = ({ item, index }) => (
+        <>
+            <View style={{ ...styles.card, width: width - 48 }}>
+                <View style={StyleSheet.absoluteFill}>
+                    <Image style={{ flex: 1, borderRadius: 10, height: null, width: null }} source={item.imgSrc} />
+                </View>
+            </View>
+            <Text style={styles.adsTxt}>{item.text}</Text>
+        </>
+    );
     return (
         <>
-            <Animated.View style={{
-                ...styles.container,
-                bottom: startAnime.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, height]
-                })
-            }}>
-                <View style={{ ...StyleSheet.absoluteFill }}>
-                    <Image style={{ flex: 1, width: null, height: null }} source={require('../assets/homebg.jpg')} />
+            <View style={{ flex: 1, alignItems: 'center', backgroundColor: user.theme === 'light' ? '#fff' : 'rgb(18, 18, 18)' }}>
+                <Text style={{ ...styles.title, color: user.theme === 'light' ? '#000' : 'rgb(245, 246, 250)' }}>Home</Text>
+                <Text style={{...styles.brand, color: user.theme === 'light'? '#000': '#ecf0f1'}}>Pass Locker<Feather name='shield' color={user.theme === 'light'? '#000': '#ecf0f1'} size={36} /></Text>
+                <Text style={{...styles.moto, color: user.theme === 'light'? '#000': '#ecf0f1'}}>Unlock the impossible</Text>
+                <View style={{ height: 350, marginBottom: 50 }}>
+                    <Carousel data={[
+                        { text: 'Safely save and store your data locally or sync them across devices', imgSrc: require('../assets/blocks.png') },
+                        { text: 'Customize the look and feel of this app to your preference', imgSrc: require('../assets/customize.png') },
+                        { text: 'Love this app? Give the creator a thumb up!', imgSrc: require('../assets/like.png') }]}
+                        renderItem={_renderItem}
+                        sliderWidth={width}
+                        autoplay
+                        loop
+                        firstItem={1}
+                        shouldOptimizeUpdates
+                        itemWidth={width * 0.9} />
                 </View>
-                <LinearGradient style={{ ...StyleSheet.absoluteFill }} colors={['rgba(0, 0, 0, 0.9)', 'rgba(0, 0, 0, 0.6)']} start={{ x: 0, y: 1 }} end={{ x: 1, y: 0 }} />
-                <Animated.Text style={{ ...styles.brand, marginLeft: width * 0.15 }}>Pass Locker</Animated.Text>
-                <View style={{ width: '70%' }}>
-                    <Text style={styles.moto}>All your passwords in one secure place</Text>
-                </View>
-                <TouchableOpacity style={styles.btn} onPress={() => {
-                    Animated.timing(
-                        startAnime, {
-                        toValue: 1,
-                        duration: 500
-                    }
-                    ).start();
-                }} >
-                    <Text style={styles.btnText}>Get Started</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('Passwords')} style={{
+                    padding: 24,
+                    width: 300,
+                    borderWidth: user.theme === 'light'? 0: 1,
+                    borderColor: '#ecf0f1',
+                    borderRadius: 30,
+                    elevation: 3,
+                    backgroundColor: user.theme === 'light'? '#fff': 'transparent',
+                }}>
+                    <Text style={{...styles.callToAction, color: user.theme === 'light'? '#636e72': '#ecf0f1'}}>Get Started</Text>
                 </TouchableOpacity>
-            </Animated.View>
-            <View style={{flex: 1, alignItems: 'center', backgroundColor: user.theme === 'light'? '#fff': 'rgb(18, 18, 18)'}}>
-                <Text style={{...styles.title, color: user.theme === 'light'? '#000': 'rgb(245, 246, 250)'}}>Home</Text>
-                <View style={{...styles.card, width:  width - 48}}>
-                    <View style={StyleSheet.absoluteFill}>
-                        <Image style={{flex: 1, borderRadius: 10, height: null, width: null}} source={require('../assets/blocks.png')} />
-                    </View>
-                </View>
-                <Text style={styles.adsTxt}>Safely store your accounts and password locally or sync them across devices</Text>
-                <View style={{...styles.card, width: width - 48}}>
-                    <View style={StyleSheet.absoluteFill}>
-                        <Image style={{flex: 1, borderRadius: 10, height: null, width: null}} source={require('../assets/customize.png')} />
-                    </View>
-                </View>
-                <Text style={styles.adsTxt}>Customize the appearance and language of your preference</Text>
             </View>
         </>
     )
@@ -66,14 +65,19 @@ const styles = StyleSheet.create({
     brand: {
         fontFamily: 'monospace',
         fontWeight: 'bold',
-        marginTop: 60,
-        fontSize: 64,
+        marginTop: 40,
+        fontSize: 42,
+        marginLeft: 24,
+        alignSelf: 'flex-start',
         color: '#FFF',
+        textAlign: 'left'
     },
     moto: {
         marginTop: 12,
         fontFamily: 'monospace',
-        fontSize: 24,
+        fontSize: 18,
+        marginLeft: 24,
+        alignSelf: 'flex-start',
         color: '#FFF',
     },
     btn: {
@@ -98,7 +102,7 @@ const styles = StyleSheet.create({
         marginLeft: 24
     },
     card: {
-        height: 200,
+        height: 250,
         borderRadius: 10,
         marginVertical: 16,
         justifyContent: 'flex-end'
@@ -109,8 +113,13 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'monospace',
         paddingHorizontal: 24,
-        width: '90%',
+        width: '100%',
         textAlign: 'center'
+    },
+    callToAction: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 18,
     }
 });
 

@@ -52,7 +52,7 @@ export default function Passwords({ navigation }) {
                             Animated.timing(
                                 colorAnime, {
                                 toValue: 1,
-                                duration: 250
+                                duration: 300
                             }
                             ).start()
                         }
@@ -60,7 +60,7 @@ export default function Passwords({ navigation }) {
                             Animated.timing(
                                 colorAnime, {
                                 toValue: 0,
-                                duration: 250
+                                duration: 300
                             }
                             ).start()
                         }

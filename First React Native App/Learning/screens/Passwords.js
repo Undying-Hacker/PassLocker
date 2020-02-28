@@ -73,7 +73,7 @@ export default function Passwords({ navigation }) {
                 containerStyle={{ width: width, paddingTop: 16, backgroundColor: user.theme === 'light'? 'rgba(255, 255, 255, 0.4)':'rgba(24, 24, 24, 0.6)' }}
             />
             <View style={{ flex: 1 }}>
-                <FlatList data={!search? passwords: passwords.filter(item => {return user.searchMode === 'Platform'? item.platform.match(new RegExp(search, 'gi')): item.email.match(new RegExp(search, 'gi'))})} style={styles.pwContainer} keyExtractor={item => item.email} renderItem={({ item, index }) => <Card data={item} edit={() => handleEdit(item, index)} color={cardColors[index % cardColors.length]} deleteItem={() => handleDelete(index)} delay={50 * index} />} />
+                <FlatList data={!search? passwords: passwords.filter(item => {return user.searchMode === 'Platform'? (new RegExp(search, 'gi')).test(item.platform): (new RegExp(search, 'gi')).test(item.email)})} style={styles.pwContainer} keyExtractor={item => item.email} renderItem={({ item, index }) => <Card data={item} edit={() => handleEdit(item, index)} color={cardColors[index % cardColors.length]} deleteItem={() => handleDelete(index)} delay={50 * index} />} />
             </View>
             <TouchableOpacity style={styles.addBtn} onPress={() => setModalVisible(true)}>
                 <AntDesign name='plus' color='#fff' size={32} />
