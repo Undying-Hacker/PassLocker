@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Blank Template",
-    "slug": "Learning",
+    "name": "Pass Locker",
+    "slug": "Passlocker",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#fff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,7 +24,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.divergent.NooberCong",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.divergent.NooberCong",
+      "versionCode": 1
     }
   }
 }
