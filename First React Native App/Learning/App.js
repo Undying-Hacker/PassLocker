@@ -56,33 +56,31 @@ function cacheImages(images) {
 const AppStack = createMaterialBottomTabNavigator();
 
 const Main = () => {
-  const [passwords, passwordDispatch] = usePassword();
+  const passwordDispatch = usePassword()[1];
   const [user, userDispatch] = useUser();
-  let isSet = useRef(false);
 
-  const setUp = async () => {
-    try {
-      isSet.current = true;
-      await Facebook.initializeAsync("875873252852334", "Pass Locker");
-      await retrieveSettings(userDispatch);
-      const PIN = await AsyncStorage.getItem("PIN");
-      if (PIN) {
-        setPINCode(userDispatch, PIN);
-      }
-      const data = await AsyncStorage.getItem("passwords");
-      if (data) {
-        setPasswords(data, passwordDispatch);
-      }
-      const lastUser = await AsyncStorage.getItem("lastUser");
-      if (lastUser) {
-        setLastUser(userDispatch, lastUser);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  if (!isSet.current) setUp();
   useEffect(() => {
+    const setUp = async () => {
+      try {
+        await Facebook.initializeAsync("875873252852334", "Pass Locker");
+        await retrieveSettings(userDispatch);
+        const PIN = await AsyncStorage.getItem("PIN");
+        if (PIN) {
+          setPINCode(userDispatch, PIN);
+        }
+        const data = await AsyncStorage.getItem("passwords");
+        if (data !== null) {
+          setPasswords(data, passwordDispatch);
+        }
+        const lastUser = await AsyncStorage.getItem("lastUser");
+        if (lastUser !== null) {
+          setLastUser(userDispatch, lastUser);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    setUp();
     const unsubscribeAuth = firebase.auth().onAuthStateChanged(fbUser => {
       if (fbUser && !user.authenticated) {
         setUser(fbUser, userDispatch);
@@ -105,11 +103,12 @@ const Main = () => {
         });
       }
     });
-    AppState.addEventListener("change", state => {
+    const appStateListener = AppState.addEventListener("change", state => {
       if (state === "background") lock(userDispatch);
     });
     return () => {
       unsubscribeAuth();
+      AppState.removeEventListener("change", appStateListener);
     };
   }, []);
   return (

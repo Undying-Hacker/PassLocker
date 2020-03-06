@@ -123,11 +123,9 @@ export const getSyncedPasswords = async (passwordDispatch, setSyncing) => {
 };
 
 export const syncData = async (passwords, passwordDispatch) => {
-  let save = false;
   await Promise.all(
     passwords.map(async pw => {
       if (!pw.synced) {
-        if (!save) save = true;
         try {
           const result = await syncPassword(pw);
           if (result.id) {
@@ -142,7 +140,6 @@ export const syncData = async (passwords, passwordDispatch) => {
       }
     })
   );
-  if (save) saveData(passwords);
 };
 
 export const deleteSyncedPassword = id => {
