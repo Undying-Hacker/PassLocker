@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "434589907095",
+    "firebase_url": "https://noobernews.firebaseio.com",
+    "project_id": "noobernews",
+    "storage_bucket": "noobernews.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:434589907095:android:9154605d43dc30bc6651d2",
+        "android_client_info": {
+          "package_name": "com.noobercong.noobernews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "434589907095-fffqnsldukv8bal72bm699iv20bipum6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9Ntb7OnbFWp3DLuVTcWK7l29iQsxnqk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "434589907095-fffqnsldukv8bal72bm699iv20bipum6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
