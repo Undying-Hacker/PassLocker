@@ -28,10 +28,10 @@ class Api {
     return articles;
   }
 
-  Future<List<Article>> searchByKeyword(String keyword) async {
+  Future<List<Article>> searchByKeyword(String keyword, {int page}) async {
     var articles = List<Article>();
     var response = await _client.get(
-        Uri.http(endpoint, "v2/everything", {"q": keyword, "apiKey": apiKey}));
+        Uri.http(endpoint, "v2/everything", {"q": keyword, "apiKey": apiKey, "page": page.toString()}));
     var parsedRes = json.decode(response.body)["articles"] as List<dynamic>;
     for (var article in parsedRes) {
       articles.add(Article.fromJson(article));

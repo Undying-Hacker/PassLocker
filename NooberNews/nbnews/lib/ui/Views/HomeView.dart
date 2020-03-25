@@ -135,6 +135,7 @@ class _HomeViewState extends State<HomeView>
                   ),
                   child: model.headlines != null
                       ? ListView.builder(
+                          physics: BouncingScrollPhysics(),
                           itemCount: 20,
                           itemBuilder: (context, index) {
                             var headline = model.headlines[index];

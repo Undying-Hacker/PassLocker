@@ -22,10 +22,8 @@ class Auth {
   }
 
   Future signInWithGoogle() async {
-    print("Signing in google");
     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
     if (googleUser != null) {
-      print("User is not null");
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
 
@@ -40,8 +38,6 @@ class Auth {
           displayName: user.displayName,
           email: user.email,
           photoUrl: user.photoUrl));
-    } else {
-      print("User is null");
     }
   }
 
@@ -63,6 +59,7 @@ class Auth {
       case FacebookLoginStatus.cancelledByUser:
         break;
       case FacebookLoginStatus.error:
+        throw Error();
         break;
     }
   }

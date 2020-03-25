@@ -6,16 +6,41 @@ import 'package:transparent_image/transparent_image.dart';
 class HeadlineCard extends StatelessWidget {
   final Article article;
   const HeadlineCard({Key key, this.article}) : super(key: key);
+  String fromNow(String time) {
+    DateTime parsedTime = DateTime.parse(time);
+    Duration difference = DateTime.now().difference(parsedTime);
+    if (difference.inDays > 0) {
+      int days = difference.inDays;
+      if (days > 365) {
+        int year = days ~/ 365;
+        return "$year year${year > 1 ? "s" : ""} ago";
+      } else if (days >= 30) {
+        int month = days ~/ 30;
+        return "$month month${month > 1 ? "s" : ""} ago";
+      } else if (days >= 7) {
+        int week = days ~/ 7;
+        return "$week week${week > 1 ? "s" : ""} ago";
+      }
+      return "${difference.inDays} day${difference.inDays > 1 ? "s" : ""} ago";
+    } else if (difference.inHours > 0) {
+      return "${difference.inHours} hour${difference.inHours > 1 ? "s" : ""} ago";
+    } else if (difference.inMinutes > 0) {
+      return "${difference.inMinutes} minute${difference.inMinutes > 1 ? "s" : ""} ago";
+    } else {
+      return "${difference.inSeconds} second${difference.inSeconds > 1 ? "s" : ""} ago";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final String heroTag = article != null
         ? article.imageUrl != null
             ? "HC${article.imageUrl}"
-            : "HC${article.title}"
+            : "HC${article.content}"
         : null;
     return article != null
         ? GestureDetector(
+          behavior: HitTestBehavior.translucent,
             onTap: () => Navigator.of(context).pushNamed('/article',
                 arguments: {"heroTag": heroTag, "article": article}),
             child: Container(
@@ -56,18 +81,16 @@ class HeadlineCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          article.title.length > 60
-                              ? "${article.title.substring(0, 60)}..."
-                              : article.title,
+                          article.title,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: "Roboto",
                               fontSize: 16,
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          DateTime.now()
-                              .difference(DateTime.parse(article.published))
-                              .toString(),
+                          fromNow(article.published),
                           style: TextStyle(
                             fontFamily: "Roboto",
                             fontSize: 12,
