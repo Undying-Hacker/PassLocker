@@ -28,6 +28,7 @@ dependencies:
   firebase_auth: 0.15.5+3
   flutter_facebook_login: 3.0.0
   google_sign_in: 4.2.0
+  shared_preferences: 0.5.6+3
   font_awesome_flutter: 8.7.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -53,9 +54,8 @@ flutter:
   assets:
    - images/article_placeholder_image.png
    - images/default_avatar.png
-   - images/login_bg.jpg
-   - images/login_bg1.jpeg
    - images/search_bg.png
+   - images/no_result.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

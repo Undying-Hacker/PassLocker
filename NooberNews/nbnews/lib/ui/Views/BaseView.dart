@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:nbnews/core/ViewModels/BaseModel.dart';
 import 'package:nbnews/locator.dart';
 import 'package:provider/provider.dart';
 
-class BaseView<T extends BaseModel> extends StatefulWidget {
+class BaseView<T extends ChangeNotifier> extends StatefulWidget {
   final Widget Function(BuildContext context, T model, Widget child) builder;
   final Function(T) onModelReady;
   BaseView({Key key, this.builder, this.onModelReady}) : super(key: key);
@@ -12,7 +11,7 @@ class BaseView<T extends BaseModel> extends StatefulWidget {
   _BaseViewState<T> createState() => _BaseViewState<T>();
 }
 
-class _BaseViewState<T extends BaseModel> extends State<BaseView<T>> {
+class _BaseViewState<T extends ChangeNotifier> extends State<BaseView<T>> {
   T model;
   @override
   void initState() {

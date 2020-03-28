@@ -17,8 +17,8 @@ class NewsCarousel extends StatelessWidget {
             items: List<GestureDetector>.generate(20, (index) {
               var article = articles[index];
               var heroTag = article.imageUrl != null
-                  ? "NC${article.imageUrl}"
-                  : "NC${article.title}";
+                  ? "NC${article.imageUrl}$index"
+                  : "NC${article.title}$index";
               return GestureDetector(
                 onTap: () => Navigator.of(context).pushNamed('/article',
                     arguments: {"heroTag": heroTag, "article": article}),

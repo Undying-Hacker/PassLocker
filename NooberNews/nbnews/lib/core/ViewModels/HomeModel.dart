@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:nbnews/core/Models/Article.dart';
 import 'package:nbnews/core/Services/api.dart';
-import 'package:nbnews/core/ViewModels/BaseModel.dart';
+import 'package:nbnews/core/Services/settings.dart';
+import 'package:nbnews/core/ViewModels/User.dart';
 import '../../locator.dart';
 
-class HomeModel extends BaseModel {
+class HomeModel extends ChangeNotifier {
   Api _api = locator<Api>();
   List<Article> headlines;
   List<Article> topicNews;

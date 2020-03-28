@@ -14,15 +14,13 @@ class HomeView extends StatefulWidget {
   _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView>
-    with AutomaticKeepAliveClientMixin {
-  bool get wantKeepAlive => true;
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    super.build(context);
     return BaseView<HomeModel>(
       onModelReady: (model) {
+        user = Provider.of<User>(context);
         if (model.headlines == null) {
           print("headlines empty");
           model.fetchTopHeadlines();
@@ -136,13 +134,15 @@ class _HomeViewState extends State<HomeView>
                   child: model.headlines != null
                       ? ListView.builder(
                           physics: BouncingScrollPhysics(),
-                          itemCount: 20,
+                          itemCount: model.headlines.length,
+                          addAutomaticKeepAlives: true,
                           itemBuilder: (context, index) {
                             var headline = model.headlines[index];
                             return HeadlineCard(article: headline);
                           })
                       : ListView.builder(
                           itemCount: 3,
+                          physics: BouncingScrollPhysics(),
                           itemBuilder: (context, _) {
                             return HeadlineCard(article: null);
                           },

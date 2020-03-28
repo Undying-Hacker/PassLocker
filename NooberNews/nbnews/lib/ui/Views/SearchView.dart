@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nbnews/core/Models/Article.dart';
 import 'package:nbnews/core/ViewModels/SearchModel.dart';
-import 'package:nbnews/core/enums/ViewState.dart';
 import 'package:nbnews/ui/Views/BaseView.dart';
 import 'package:nbnews/ui/Widgets/HeadlineCard.dart';
 
@@ -54,6 +53,7 @@ class _SearchViewState extends State<SearchView> {
                             Expanded(
                               child: TextField(
                                 focusNode: _focusNode,
+                                onSubmitted: (text) => model.search(text),
                                 autofocus: true,
                                 controller: _controller,
                                 decoration:
@@ -93,32 +93,54 @@ class _SearchViewState extends State<SearchView> {
                     height: 20,
                   ),
                   Expanded(
-                    child: model.state == ViewState.Idle
-                        ? model.searchResults.length > 0
-                            ? ListView.builder(
-                                controller: _lvController,
-                                physics: BouncingScrollPhysics(),
-                                itemCount: model.searchResults.length,
-                                itemBuilder: (context, index) {
-                                  Article article = model.searchResults[index];
-                                  return HeadlineCard(article: article);
-                                })
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.asset("images/search_bg.png"),
-                                  Text(
-                                    "Type in something to search",
-                                    style: TextStyle(
-                                        fontFamily: "Roboto",
-                                        color: Colors.grey),
-                                  )
-                                ],
-                              )
-                        : Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                  )
+                      child: model.state == SearchState.InitialLoading
+                          ? Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : model.state == SearchState.Initial
+                              ? Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Image.asset("images/search_bg.png"),
+                                    Text(
+                                      "Type in something to search",
+                                      style: TextStyle(
+                                          fontFamily: "Roboto",
+                                          color: Colors.grey),
+                                    )
+                                  ],
+                                )
+                              : model.state == SearchState.NoResult
+                                  ? Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Image.asset("images/no_result.png"),
+                                        Text(
+                                          "Sorry, we found nothing",
+                                          style: TextStyle(
+                                              fontFamily: "Roboto",
+                                              color: Colors.grey),
+                                        )
+                                      ],
+                                    )
+                                  : ListView.builder(
+                                      controller: _lvController,
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: model.searchResults.length,
+                                      itemBuilder: (context, index) {
+                                        Article article =
+                                            model.searchResults[index];
+                                        return HeadlineCard(article: article);
+                                      })),
+                  model.state == SearchState.LoadingMoreResult
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[CircularProgressIndicator()],
+                        )
+                      : SizedBox(
+                          height: 0,
+                        ),
                 ],
               ),
             ),
